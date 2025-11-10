@@ -691,7 +691,7 @@ public class UploadEmployeeScheduleUploadingController extends MasterController<
 										}
 									}
 									AlertUtil.showSuccessSaveAlert(getStage());
-									stage.close();
+//									stage.close();
 
 								} else {
 
@@ -1798,9 +1798,10 @@ public class UploadEmployeeScheduleUploadingController extends MasterController<
 
 		// if time out is before time out sched & before lunch in sched, move to lunch
 		// in entry
-		if ((lunchIn == null && timeOut != null) && timeOutReference.getTime() != null
-				&& timeOut.getTimeEntry() != null) {
-			if (timeOut.getTimeEntry().before(timeOutReference.getTime())
+		if ((lunchIn == null && timeOut != null) && timeOutReference.getTime() != null && timeOut.getTimeEntry() != null
+				&& lunchOutReference != null && lunchInReference != null) {
+			if (timeOut.getTimeEntry().after(lunchOutReference.getTime())
+					&& timeOut.getTimeEntry().before(timeOutReference.getTime())
 					&& (timeOut.getTimeEntry().before(lunchInReference.getTime())
 							|| timeOut.getTimeEntry().equals(lunchInReference.getTime()))) {
 				lunchIn = timeOut;
@@ -1826,6 +1827,29 @@ public class UploadEmployeeScheduleUploadingController extends MasterController<
 			lunchIn = null;
 		}
 
+		// if same time in and time out, decide which to clear (ONLY entries with lunch)
+//		if (timeIn != null && timeOut != null && lunchInReference != null && lunchOutReference != null) {
+//			if (timeIn.getTimeEntry().equals(timeOut.getTimeEntry())) {
+//				if ((timeIn.getTimeEntry().before(lunchInReference.getTime())
+//						|| timeIn.getTimeEntry().equals(lunchInReference.getTime()))
+//						|| (timeIn.getTimeEntry().after(lunchOutReference.getTime())
+//								|| timeIn.getTimeEntry().equals(lunchOutReference.getTime()))) {
+//					timeIn = null;
+//					lunchOut = timeIn;
+//					lunchIn = timeOut;
+//					timeOut = null;
+//				}
+//
+//				else if (timeIn.getTimeEntry().before(lunchOutReference.getTime())) {
+//					timeOut = null;
+//				}
+//
+//				else if (timeIn.getTimeEntry().after(lunchInReference.getTime())) {
+//					timeIn = null;
+//				}
+//			}
+//		}
+//=======================================================================================================
 		// try {
 		// Calendar timeEntryCal = Calendar.getInstance();
 		//
